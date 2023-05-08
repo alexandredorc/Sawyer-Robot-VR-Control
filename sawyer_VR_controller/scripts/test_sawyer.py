@@ -1,11 +1,28 @@
 #!/usr/bin/env python
 
 import sys
-import copy
 import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
+from trajectory_msgs.msg import JointTrajectoryPoint
+
+def concatenate_trajectories(trajectories):
+    composite_traj = moveit_msgs.msg.RobotTrajectory()
+    composite_traj.joint_trajectory.joint_names = trajectories[0].joint_trajectory.joint_names
+    
+    for traj in trajectories:
+        time_offset = rospy.Duration(0) if len(composite_traj.joint_trajectory.points) == 0 else composite_traj.joint_trajectory.points[-1].time_from_start
+        
+        for point in traj.joint_trajectory.points:
+            new_point = JointTrajectoryPoint()
+            new_point.positions = point.positions
+            new_point.velocities = point.velocities if point.velocities else []
+            new_point.accelerations = point.accelerations if point.accelerations else []
+            new_point.time_from_start = point.time_from_start + time_offset
+            composite_traj.joint_trajectory.points.append(new_point)
+    
+    return composite_traj
 
 # Initialize ROS node and MoveIt commander
 moveit_commander.roscpp_initialize(sys.argv)
@@ -15,40 +32,25 @@ scene = moveit_commander.PlanningSceneInterface()
 group = moveit_commander.MoveGroupCommander("right_arm")
 group.set_max_velocity_scaling_factor(0.4)
 group.set_max_acceleration_scaling_factor(0.8)
-display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory)
+display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
 
-
-# Set the planner ID to KPIECE for better singularity avoidance
-#group.set_planner_id("KPIECE")
-
-# Set the goal tolerance to 1 cm to avoid collision and singularities
+# Set the goal tolerance to avoid collision and singularities
 group.set_goal_tolerance(0.05)
 
 # list of singularities for each type of them
 singularities = [
     [0, 0, 0, 0, 0, 0, 0],  # Wrist flip singularity
     [-0.2, -0.2,-0.2,-0.2,-0.2,-0.2,-0.2],  # Shoulder flip singularity
-    """[0.1, -1.2, 0.2, 0, 1.57, 0.5, 0],  # Elbow flip singularity
-    [0.5, 0, 0.5, 0, 0, 0, 0],  # Axis 1 singularity
-    [0.5, -0.7, 0, 0, 0, 0, 0],  # Axis 3 singularity
-    [0.5, -1.5, 0.5, 0, 0, 0, 0],  # Axis 5 singularity"""
 ]
 
-
-# loop though all singularities to test if it avoid
-count=0
+plans = []
 for singularity in singularities:
-	robot_trajectory=moveit_commander.RobotTrajectory()
-	group.set_joint_value_target(singularity)
-	plan = group.plan()
-	if count==0:
-		robot_trajectory.append(plan,0)
-	else:
-		time_offset=robot_trajectory.joint_trajectory.points[-1].time_from_start
-		robot_trajectory+=plan
-	count+=1
+    group.set_joint_value_target(singularity)
+    plan = group.plan()
+    plans.append(plan)
 
-group.execute(robot_trajectory)
+composite_traj = concatenate_trajectories(plans)
+group.execute(composite_traj)
 
 # Define the target position in 3D space
 target_pose = geometry_msgs.msg.Pose()
