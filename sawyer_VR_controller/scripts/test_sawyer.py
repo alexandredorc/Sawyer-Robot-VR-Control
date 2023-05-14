@@ -8,21 +8,22 @@ import geometry_msgs.msg
 from trajectory_msgs.msg import JointTrajectoryPoint
 
 def concatenate_trajectories(trajectories):
-    composite_traj = moveit_msgs.msg.RobotTrajectory()
-    composite_traj.joint_trajectory.joint_names = trajectories[0].joint_trajectory.joint_names
-    
-    for traj in trajectories:
-        time_offset = rospy.Duration(0) if len(composite_traj.joint_trajectory.points) == 0 else composite_traj.joint_trajectory.points[-1].time_from_start
-        
-        for point in traj.joint_trajectory.points:
-            new_point = JointTrajectoryPoint()
-            new_point.positions = point.positions
-            new_point.velocities = point.velocities if point.velocities else []
-            new_point.accelerations = point.accelerations if point.accelerations else []
-            new_point.time_from_start = point.time_from_start + time_offset
-            composite_traj.joint_trajectory.points.append(new_point)
-    
-    return composite_traj
+	composite_traj = moveit_msgs.msg.RobotTrajectory()
+	composite_traj.joint_trajectory.joint_names = trajectories[0].joint_trajectory.joint_names
+	
+	for traj in trajectories:
+		time_offset = rospy.Duration(0) if len(composite_traj.joint_trajectory.points) == 0 else composite_traj.joint_trajectory.points[-1].time_from_start
+		
+		for point in traj.joint_trajectory.points:
+			new_point = JointTrajectoryPoint()
+			print(point.positions)
+			new_point.positions = point.positions
+			new_point.velocities = point.velocities if point.velocities else []
+			new_point.accelerations = point.accelerations if point.accelerations else []
+			new_point.time_from_start = point.time_from_start + time_offset
+			composite_traj.joint_trajectory.points.append(new_point)
+	
+	return composite_traj
 
 # Initialize ROS node and MoveIt commander
 moveit_commander.roscpp_initialize(sys.argv)
@@ -30,8 +31,8 @@ rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
 robot = moveit_commander.RobotCommander()
 scene = moveit_commander.PlanningSceneInterface()
 group = moveit_commander.MoveGroupCommander("right_arm")
-group.set_max_velocity_scaling_factor(0.4)
-group.set_max_acceleration_scaling_factor(0.8)
+group.set_max_velocity_scaling_factor(0.2)
+group.set_max_acceleration_scaling_factor(0.6)
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=1)
 
 # Set the goal tolerance to avoid collision and singularities
