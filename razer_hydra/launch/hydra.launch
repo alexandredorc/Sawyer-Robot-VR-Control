@@ -2,7 +2,7 @@
 <launch>
   <arg name="device" default="/dev/hydra" />
   <arg name="publish_tf" default="true" />
-  <arg name="polling_ms" default="10" />
+  <arg name="polling_ms" default="50" />
   <arg name="corner_hz" default="5.0" />
   <arg name="px" default="0.04" />
   <arg name="py" default="0.0" />

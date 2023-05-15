@@ -162,6 +162,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/test_sawyer.py
   scripts/listen.py
+  scripts/hydra_listen.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -40,9 +40,14 @@ group.set_goal_tolerance(0.05)
 
 # list of singularities for each type of them
 singularities = [
-    [0, 0, 0, 0, 0, 0, 0],  # Wrist flip singularity
-    [-0.2, -0.2,-0.2,-0.2,-0.2,-0.2,-0.2],  # Shoulder flip singularity
+    [0.3, -1.2, 0.8, 0.5, 1.2, -2.5, 2.5],  # Joint Limit Singularity
+    [1.2, 0.7, 2.8, 0.0, 0.0, 0.0, 1.5],    # Wrist Singularity
+    [0.5, 1.5, -0.8, 0.0, 1.8, 0.3, 0.9],    # Elbow Singularity
+    [1.8, -0.5, 0.9, 0.7, 1.2, 1.5, -1.4],   # Shoulder Singularity
+    [0.9, 0.4, 1.2, -0.5, 1.8, 0.9, 1.2],    # Reach Singularity
+    [0.6, 0.4, 0.8, 1.2, -1.5, 1.0, -0.9]    # Jacobian Singularity
 ]
+
 
 plans = []
 for singularity in singularities:
