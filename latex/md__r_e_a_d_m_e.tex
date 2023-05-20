@@ -1,0 +1,29 @@
+\chapter{Control a Cobot using a virtual reality controller.}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Control a Cobot using a virtual reality controller.@{Control a Cobot using a virtual reality controller.}}
+\label{md__r_e_a_d_m_e_autotoc_md7}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md7}%
+ The aim of this project is to connect a VR system to a robot that enables users to control the robot arm by moving their own arms and grip items using a gripper end effector. The end goal is to be able to perform a variety of tasks using the VR controller and different end effector.\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{Setup ROS environment}{Setup ROS environment}}\label{md__r_e_a_d_m_e_autotoc_md8}
+First to make this project work you need to setup the ROS Melodic environment on a Ubuntu 18.\+04 OS. To create the appropriate environment follow the tutorial on the official ROS \href{http://wiki.ros.org/melodic/Installation/Ubuntu}{\texttt{ website}}\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysection{\texorpdfstring{Installing dependecies for the Sawyer robot}{Installing dependecies for the Sawyer robot}}\label{md__r_e_a_d_m_e_autotoc_md9}
+This project will use a Sawyer Robot of Rethink Robotics. We need to connect the Sawyer Robot by following the tutorial on the Rethink Robotics \href{https://www.rethinkrobotics.com/}{\texttt{ website}} create the {\ttfamily catkin\+\_\+ws} folder and the require dependencies indiquated in the website.\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysection{\texorpdfstring{Connection bewteen master computer and robots}{Connection bewteen master computer and robots}}\label{md__r_e_a_d_m_e_autotoc_md10}
+To establish a connection between the robot and the master you need a router and connect your device with a static IP address. To setup your ROS environment with the robot you need to\+:
+
+
+\begin{DoxyItemize}
+\item add to the {\ttfamily \texorpdfstring{$\sim$}{\string~}/.bashrc} file the following line \begin{quote}
+export ROS\+\_\+\+MASTER\+\_\+\+URI=\href{http://Your_Master_IP:11311}{\texttt{ http\+://\+Your\+\_\+\+Master\+\_\+\+IP\+:11311}} \end{quote}
+\begin{quote}
+export ROS\+\_\+\+IP=Sawyer\+\_\+\+IP \end{quote}
+
+\item change the {\ttfamily intera.\+sh} file accordingly to the tutorial
+\end{DoxyItemize}
+
+Check the SDK version on the Sawyer robot and your master computer. We advise to update to the version 5.\+3.\+0 or up both of them to be sure not to have version collision.\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysection{\texorpdfstring{Initialize the robot}{Initialize the robot}}\label{md__r_e_a_d_m_e_autotoc_md11}
+to initialize the Sawyer robot functions execute the following commands. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ \string~/catkin\_ws}
+\DoxyCodeLine{./intera.sh}
+\DoxyCodeLine{rosrun\ intera\_interface\ enable\_robot.py\ -\/e}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysection{\texorpdfstring{Run the VR command}{Run the VR command}}\label{md__r_e_a_d_m_e_autotoc_md12}
+.................. 
