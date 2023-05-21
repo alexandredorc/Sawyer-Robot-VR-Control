@@ -116,7 +116,23 @@ Other Dependencies</h1>
 Run the VR command</h1>
 <p>To control the robot with the controllers you need to run in one terminal the following command</p>
 <div class="fragment"><div class="line">roslaunch sawyer_VR_controller main.launch</div>
-</div><!-- fragment --><p> this should run three different process </p>
+</div><!-- fragment --><p> this should run three different process</p>
+<ul>
+<li>The razer hydra driver</li>
+<li>The sawyer joint state service</li>
+<li>Moveit and rviz for sawyer</li>
+</ul>
+<p>Then run the control algorithm node by executing this command in a other terminal.</p>
+<div class="fragment"><div class="line">rosrun sawyer_VR_controller hydra_listen.py</div>
+</div><!-- fragment --><p>Then it time to control your robot !</p>
+<h1><a class="anchor" id="autotoc_md12"></a>
+Operate the robot</h1>
+<ul>
+<li>If you want to move you should press the button above the trigger, the robot will then follow your movement.</li>
+<li>You can change the scale of the robot movement by clicking on the two buttons on the bottom below the joystick.</li>
+<li>Pressing the trigger will close the end effector</li>
+<li>You can lock the end effector position by clicking on the top right button in front below the joy stick </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

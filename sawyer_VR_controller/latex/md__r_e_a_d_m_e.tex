@@ -55,4 +55,29 @@ To control the robot with the controllers you need to run in one terminal the fo
 \DoxyCodeLine{roslaunch\ sawyer\_VR\_controller\ main.launch}
 
 \end{DoxyCode}
- this should run three different process 
+ this should run three different process
+
+
+\begin{DoxyItemize}
+\item The razer hydra driver
+\item The sawyer joint state service
+\item Moveit and rviz for sawyer
+\end{DoxyItemize}
+
+Then run the control algorithm node by executing this command in a other terminal.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{rosrun\ sawyer\_VR\_controller\ hydra\_listen.py}
+
+\end{DoxyCode}
+
+
+Then it time to control your robot !\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysection{\texorpdfstring{Operate the robot}{Operate the robot}}\label{md__r_e_a_d_m_e_autotoc_md12}
+
+\begin{DoxyItemize}
+\item If you want to move you should press the button above the trigger, the robot will then follow your movement.
+\item You can change the scale of the robot movement by clicking on the two buttons on the bottom below the joystick.
+\item Pressing the trigger will close the end effector
+\item You can lock the end effector position by clicking on the top right button in front below the joy stick 
+\end{DoxyItemize}
