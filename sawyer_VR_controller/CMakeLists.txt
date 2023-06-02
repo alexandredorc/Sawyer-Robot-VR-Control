@@ -161,7 +161,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/move_pose.py
-  scripts/get_joint_state.py
+  scripts/get_joint_states.py
   scripts/hydra_listen.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
